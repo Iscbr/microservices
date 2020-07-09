@@ -1,0 +1,6 @@
+/.idea/
+/config-server/.mvn/
+/eureka-server/.mvn/
+/sboot-item/.mvn/
+/sboot-products/.mvn/
+/zuul-server/.mvn/

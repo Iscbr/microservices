@@ -1,6 +1,5 @@
 package com.iscbr.sbootproducts.entity
 
-import org.hibernate.annotations.CreationTimestamp
 import java.io.Serializable
 import java.util.*
 import javax.persistence.*
@@ -10,20 +9,20 @@ import javax.persistence.*
 data class Product(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val idProduct: Long,
+        var idProduct: Long? = null,
 
         @Column(name = "name")
-        val name: String,
+        var name: String,
 
         @Column(name = "price")
-        val price: Double,
+        var price: Double,
 
         @Column(name = "create_at")
         @Temporal(TemporalType.DATE)
-        val createAt: Date,
+        var createAt: Date,
 
         @Transient
-        var port: Int) {
+        var port: Int) : Serializable {
 
         constructor() : this(-1, "", 0.0, Date(), -1)
 }

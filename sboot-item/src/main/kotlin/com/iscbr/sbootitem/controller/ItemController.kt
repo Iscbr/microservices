@@ -10,9 +10,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -34,10 +32,7 @@ class ItemController {
 
     @HystrixCommand(fallbackMethod = "metodoAlternativo")
     @GetMapping("/{id}/{quantity}")
-    fun getItem(
-            @PathVariable("id") id: Long,
-            @PathVariable("quantity"
-        ) quantity: Int): Item
+    fun getItem(@PathVariable("id") id: Long, @PathVariable("quantity") quantity: Int): Item
             = itemService.findById(id, quantity) // itemServiceFeign.findById(id, quantity)
 
     fun metodoAlternativo(id: Long, quantity: Int): Item {
@@ -59,4 +54,19 @@ class ItemController {
 
         return ResponseEntity(json, HttpStatus.OK)
     }
+
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun createProduct(@RequestBody product: Product): Product? =
+            itemServiceFeign.saveProduct(product) //itemService.saveProduct(product)
+
+    @PutMapping("/edit/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun editProduct(@PathVariable("id") id: Long, @RequestBody product: Product): Product? =
+            itemServiceFeign.updateProduct(id, product) //itemService.updateProduct(id, product)
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteProduct(@PathVariable("id") id: Long) =
+            itemServiceFeign.deleteProduct(id) //itemService.deleteProduct(id)
 }

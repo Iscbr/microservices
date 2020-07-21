@@ -45,7 +45,7 @@ class ProductController {
             @PathVariable("id") idProduct: Long,
             @RequestBody product: Product
     ): ResponseEntity<Any> {
-        var productToEdit = productService.getProductByID(idProduct) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val productToEdit = productService.getProductByID(idProduct) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         productToEdit.name = product.name
         productToEdit.price = product.price
 
